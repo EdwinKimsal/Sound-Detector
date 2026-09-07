@@ -220,7 +220,11 @@ void processSerialCommand() {
 
 void setup() {
 	Serial.begin(115200);
+	// Teensy 4.0 supports 12-bit ADC readings. Other Arduino cores may use
+	// their default ADC resolution and should have the threshold retuned.
+#if defined(TEENSYDUINO) || defined(ARDUINO_TEENSY40)
 	analogReadResolution(12);
+#endif
 	for (uint8_t mic = 0; mic < 3; mic++) {
 		pinMode(MIC_PINS[mic], INPUT);
 	}
